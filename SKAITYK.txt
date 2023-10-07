@@ -1,0 +1,11 @@
+# Mesa
+
+Mesa - P2P žinučių siuntinėtojas, orientuotas į naudotojo privatumą
+
+# Projekto autorius
+
+Julius Valma
+
+# Project kuratorė
+
+Agnė Brilingaitė

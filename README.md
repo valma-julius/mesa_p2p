@@ -1,1 +1,4 @@
-# mesa_p2p
+# Mesa
+
+Mesa is a P2P messenger oriented towards complete user privacy
+
