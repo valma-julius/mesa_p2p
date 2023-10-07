@@ -1,0 +1,12 @@
+# Mesa
+
+Mesa is a P2P messenger oriented towards user privacy
+
+# Project Author
+
+Julius Valma
+
+# Project supervisor
+
+Agnė Brilingaitė
+
