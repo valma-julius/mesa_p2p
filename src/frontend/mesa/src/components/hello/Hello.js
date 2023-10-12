@@ -24,7 +24,7 @@ const Hello = (props) => {
                 navigate('/register');
               }}
             >
-              Sign Up
+              Register
             </Button>
 
             <Button
@@ -35,7 +35,7 @@ const Hello = (props) => {
                 navigate('/login');
               }}
             >
-              Sign In
+              Log In
             </Button>
           </div>
         )}
