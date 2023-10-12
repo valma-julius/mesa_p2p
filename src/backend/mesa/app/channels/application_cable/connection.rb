@@ -20,7 +20,7 @@ module ApplicationCable
     end
 
     def user_id
-      jwt_payload = JWT.decode(request.params[:jwt], Rails.application.credentials[:devise_jwt_secret]).first
+      jwt_payload = JWT.decode(request.params[:jwt], ENV['DEVISE_SECRET_KEY']).first
     rescue JWT::ExpiredSignature
       reject_unauthorized_connection
     else
