@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -31,9 +31,14 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   const fetchUser = async () => {
-    const useOb = await getUserInfo.request();
-    setUser(useOb.user);
+    await getUserInfo.request();
   };
+
+  useEffect(() => {
+    if (getUserInfo.data) {
+      setUser(getUserInfo.data.user);
+    }
+  }, [getUserInfo.data]);
 
   const setOpenConversation = async (conversation_id) => {
     const updatedUser = {
@@ -41,8 +46,24 @@ const App = () => {
       conversation_id: conversation_id,
     };
     setUser(updatedUser);
-    console.log(conversation_id)
   }
+
+  // Worker area --------------------------------------------------------------------------------------------
+  const workerRef = useRef(null);
+
+  useEffect(() => {
+      workerRef.current = new Worker(process.env.PUBLIC_URL + '/p2pWorker.js');
+
+      workerRef.current.postMessage([10, 20]);
+      workerRef.current.onmessage = function(event) {
+          console.log('Result from worker:', event.data);
+      };
+
+      return () => {
+          workerRef.current.terminate();
+      };
+  }, []);
+  // Worker area --------------------------------------------------------------------------------------------
 
   useEffect(() => {
     fetchUser();
