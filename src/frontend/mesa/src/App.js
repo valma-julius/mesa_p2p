@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+// import Peer from 'peerjs';
+import Peer from 'simple-peer'
+import { createIceCandidate } from './api/user';
 
 import { useState, useEffect, useRef } from 'react';
 
@@ -13,6 +16,7 @@ import Register from './components/register/Register';
 import Chat from './components/chat/Chat';
 import Search from './components/search/Search';
 import Header from './components/generic/Header';
+import P2PMagic from './components/p2pMagic/P2PMagic';
 
 // Context
 import { UserContext } from './context/UserContext';
@@ -48,23 +52,6 @@ const App = () => {
     setUser(updatedUser);
   }
 
-  // Worker area --------------------------------------------------------------------------------------------
-  const workerRef = useRef(null);
-
-  useEffect(() => {
-      workerRef.current = new Worker(process.env.PUBLIC_URL + '/p2pWorker.js');
-
-      workerRef.current.postMessage([10, 20]);
-      workerRef.current.onmessage = function(event) {
-          console.log('Result from worker:', event.data);
-      };
-
-      return () => {
-          workerRef.current.terminate();
-      };
-  }, []);
-  // Worker area --------------------------------------------------------------------------------------------
-
   useEffect(() => {
     fetchUser();
   }, []);
@@ -73,24 +60,25 @@ const App = () => {
     <div className="h-full">
       <BrowserRouter>
         <UserContext.Provider value={{ user, setUser }}>
-          <Header />
-          {/* <div className="h-full flex justify-center items-start"> */}
-          <Routes>
-            <Route path="/main" element={<Main />} />
-            <Route path="/" exact element={<Hello />} />
-            <Route
-              path="/register/"
-              element={<Register fetchUser={fetchUser} />}
-            />
-            <Route path="/login/" element={<Login fetchUser={fetchUser} />} />
-            <Route path="/profile/" element={<Profile />} />
-            <Route path="/chat/" element={<Chat setOpenConversation={setOpenConversation} />} />
-            {/* <Route path="/p2p_conversation/" element={<P2PConversation />} /> */}
-            <Route path="/p2p_conversation_cp/" element={<P2PConversationCP />} />
-            <Route path="/conversation/" element={<Conversation />} />
-            <Route path="/search/" element={<Search />} />
-          </Routes>
-          {/* </div> */}
+          {user && <P2PMagic user={user}></P2PMagic>}
+            <Header />
+            {/* <div className="h-full flex justify-center items-start"> */}
+            <Routes>
+              <Route path="/main" element={<Main />} />
+              <Route path="/" exact element={<Hello />} />
+              <Route
+                path="/register/"
+                element={<Register fetchUser={fetchUser} />}
+              />
+              <Route path="/login/" element={<Login fetchUser={fetchUser} />} />
+              <Route path="/profile/" element={<Profile />} />
+              <Route path="/chat/" element={<Chat setOpenConversation={setOpenConversation} />} />
+              {/* <Route path="/p2p_conversation/" element={<P2PConversation />} /> */}
+              <Route path="/p2p_conversation_cp/" element={<P2PConversationCP />} />
+              <Route path="/conversation/" element={<Conversation />} />
+              <Route path="/search/" element={<Search />} />
+            </Routes>
+            {/* </div> */}
         </UserContext.Provider>
       </BrowserRouter>
     </div>
