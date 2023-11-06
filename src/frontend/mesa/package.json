@@ -26,6 +26,7 @@
     "electron-is-dev": "^2.0.0",
     "flowbite": "^1.6.4",
     "flowbite-react": "^0.4.2",
+    "mitt": "^3.0.1",
     "peerjs": "^1.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -50,7 +51,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-restricted-globals": [
+        "error",
+        {
+          "name": "self",
+          "message": "Use self within service workers."
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

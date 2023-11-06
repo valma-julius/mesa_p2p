@@ -62,7 +62,6 @@ const App = () => {
         <UserContext.Provider value={{ user, setUser }}>
           {user && <P2PMagic user={user}></P2PMagic>}
             <Header />
-            {/* <div className="h-full flex justify-center items-start"> */}
             <Routes>
               <Route path="/main" element={<Main />} />
               <Route path="/" exact element={<Hello />} />
@@ -78,7 +77,6 @@ const App = () => {
               <Route path="/conversation/" element={<Conversation />} />
               <Route path="/search/" element={<Search />} />
             </Routes>
-            {/* </div> */}
         </UserContext.Provider>
       </BrowserRouter>
     </div>

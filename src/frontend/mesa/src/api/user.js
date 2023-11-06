@@ -133,6 +133,26 @@ const createIceCandidate = async (ice) => {
   return data;
 }
 
+const removeIceCandidate = async () => {
+  const data = await client.delete(`/remove_ice_candidate`, {
+    headers: {
+      Authorization: localStorage.getItem('mesa_token'),
+    },
+  })
+
+  return data;
+}
+
+const getAvailableIceCandidates = async () => {
+  const data = await client.get(`/get_available_ice_candidates`, {
+    headers: {
+      Authorization: localStorage.getItem('mesa_token'),
+    },
+  })
+
+  return data;
+}
+
 const createP2PTransaction = async (conversation_id) => {
   const data = await client.post(`/create_p2p_transaction`, {
     conversation_id: conversation_id
@@ -172,4 +192,4 @@ const editMessage = async (message_id, message_content) => {
   return data;
 }
 
-export { register, getUser, login, logout, search, createConversation, getConversations, getConversation, sendMessage, sendIpAddress, createIceCandidate, createP2PTransaction, getForwardingDestination, editMessage };
+export { register, getUser, login, logout, search, createConversation, getConversations, getConversation, sendMessage, sendIpAddress, createIceCandidate, removeIceCandidate, getAvailableIceCandidates, createP2PTransaction, getForwardingDestination, editMessage };
