@@ -1,0 +1,45 @@
+<html> 
+   <head> 
+      <title>Mesa</title> 
+      <script src="lib/peerjs.min.js"></script>
+      <script src="js/index.js"></script>
+      <script src="js/control.js"></script>
+      <script src="pages/utils.js"></script>
+      <link href="./css/main.css" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+   </head>
+	
+   <body> 
+      <div class="v1_2">
+         <div class="main-header">
+            <span class="v1_12 title">Mesa</span>
+            <span class="v1_13">P2P Messenger</span>
+        </div>
+
+        <div id="logged-out-menu" class="menu">
+         <a href="./pages/login.html" class="v1_4" id="action-button">Login</a>
+         <a href="./pages/register.html" class="v1_4" id="action-button">Register</a>
+        </div>
+
+        <div id="logged-in-menu" class="menu" style="display: none;">
+         <a href="./pages/chats.html" class="v1_4" id="action-button">Chats</a>
+         <a href="./pages/profile.html" class="v1_4" id="action-button">Profile</a>
+         <a href="#" id="logout-button" class="v1_4" id="action-button">Logout</a>
+        </div>
+      </div>
+
+      
+      <h1 id="my-peer">My peer id: ?</h1>
+      <h5 id="connection-status">Connection status: 🛑</h5>
+      <button id="connect">Connect</button>
+      <button id="disconnect">Disconnect</button>
+      <textarea id="connection-id" rows="10" cols="50"></textarea>
+
+      <div>
+         <p>For sending</p>
+         <textarea name="send message" id="message" cols="30" rows="10"></textarea>
+         <button id="send">Send</button>
+      </div>
+   </body>
+ 
+</html>

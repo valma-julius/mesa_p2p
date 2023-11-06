@@ -1,0 +1,146 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-size: 14px;
+    font-family: Inter;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* This makes sure the body is at least the height of the viewport */
+    margin: 0; /* Resets default margin */
+  }
+
+.v1_2 {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 25%;
+    min-height: 80vh;
+}
+
+.chats-header {
+    text-align: center;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16;
+    color: black;
+    text-decoration: none;
+    position: sticky; top: 0;
+}
+
+.search-button {
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    border-radius: 0;
+    padding: 1em;
+    cursor: pointer;
+}
+
+.v1_12 {
+    font-weight: Bold;
+}
+
+.v1_4 {
+    padding: 1em;
+    background: rgba(100,255,97,1);
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.v1_7 {
+    width: 100%;
+    height: 54px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: relative;
+    border: 1px solid rgba(0,0,0,1);
+    overflow: hidden;
+}
+
+.v1_8 {
+    width: 100%;
+    height: 54px;
+    opacity: 1;
+    position: relative;
+    border: 1px solid rgba(0,0,0,1);
+    overflow: hidden;
+}
+
+.v1_5 {
+    width: 42px;
+    color: rgba(0,0,0,1);
+    position: relative;
+    font-family: Inter;
+    font-size: 16px;
+    opacity: 1;
+    text-align: left;
+}
+
+.textarea-field {
+    margin-bottom: 2em;
+    padding: 0.5em;
+}
+
+.chats {
+    /* display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; */
+    width: 100%;
+    height: 60vh;
+    overflow-y: scroll;
+    padding: 1em;
+    border: 1px solid black;
+
+    scrollbar-color: #c1c1c1 #f0f0f0; /* thumb and track color for Firefox */
+    scrollbar-width: thin; 
+}
+
+/* Styling the scrollbar track (background) */
+.chats::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: #f0f0f0; /* Light grey background */
+    cursor: pointer;
+}
+
+/* Styling the scrollbar handle */
+.chats::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: rgba(100,255,97,1); /* Darker grey scroll thumb */
+    cursor: pointer;
+}
+
+/* Set the width of the scrollbar */
+.chats::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+    -webkit-appearance: none;
+}
+
+.chat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid black;
+    padding: 1em;
+    margin-bottom: 1em;
+
+    cursor: pointer;
+}

@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+font-size: 14px;
+font-family: Inter;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh; /* This makes sure the body is at least the height of the viewport */
+margin: 0; /* Resets default margin */
+}
+
+.v1_2 {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 25%;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.v1_4 {
+    width: 100%;
+    padding: 1.5em;
+    background: rgba(100,255,97,1);
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    margin-bottom: 1em;
+    border: 2px solid black;
+    font-weight: Bold;
+    color: black;
+}
+
+.v1_12 {
+    font-weight: Bold;
+    font-size: 36px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
