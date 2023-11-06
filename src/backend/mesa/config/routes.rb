@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   end
 
   post '/create_ice_candidate', to: 'p2p#create_ice_candidate'
+  delete '/remove_ice_candidate', to: 'p2p#remove_ice_candidate'
+  get '/get_available_ice_candidates', to: 'p2p#get_available_ice_candidates'
   post '/create_p2p_path', to: 'p2p#create_p2p_path'
   post '/create_p2p_transaction', to: 'p2p#create_p2p_transaction'
   post '/complete_p2p_transaction', to: 'p2p#complete_p2p_transaction'
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
   get '/p2p_paths/:id/get_forward_destination', to: 'p2p#get_forward_destination'
   get '/p2p_paths/:id/next_peer', to: 'p2p#next_peer'
   get '/get_pending_transactions', to: 'p2p#get_pending_author_transactions'
+  post '/p2p_message', to: 'p2p#p2p_message'
 
   # Users routes
   get 'users/search', to: 'users#search'

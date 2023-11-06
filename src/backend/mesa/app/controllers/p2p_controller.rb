@@ -9,12 +9,26 @@ class P2pController < ApplicationController
     render json: P2pPath.find(p2p_path_id)
   end
 
+  def p2p_message
+    head :ok
+  end
+
   def next_peer
 
   end
 
   def create_ice_candidate
     render json: P2p::CreateIceCandidate.for(user_id, ice)
+  end
+
+  def remove_ice_candidate
+    P2p::RemoveIceCandidate.for(user_id)
+
+    head :ok
+  end
+
+  def get_available_ice_candidates
+    render json: P2p::GetAvailableIceCandidates.for(user_id)
   end
 
   def create_p2p_path
