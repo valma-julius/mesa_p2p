@@ -2,8 +2,9 @@
 
 module Users
   class Search
-    def initialize(username)
+    def initialize(username, current_user_id)
       @username = username
+      @current_user_id = current_user_id
     end
 
     def call
@@ -19,7 +20,7 @@ module Users
     end
 
     def users
-      User.where('username ILIKE ?', "%#{@username}%").map do |user|
+      User.where.not(id: @current_user_id).where('username ILIKE ?', "%#{@username}%").map do |user|
         {
           id: user.id,
           username: user.username,
