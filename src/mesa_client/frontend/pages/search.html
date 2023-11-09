@@ -3,22 +3,23 @@
 
 <head>
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-    <link href="./chats.css" rel="stylesheet" />
-    <script src="./chats.js"></script>
+    <link href="./search.css" rel="stylesheet" />
+    <script src="./search.js"></script>
     <script src="./utils.js"></script>
     <title>Register</title>
 </head>
 
 <body>
     <div class="v1_2">
-        <div class="chats-header">
+        <div class="search-header">
             <div class="navigation">
                 <h1 class="title">Mesa</h1>
                 <button class="v1_4" id="home-button">Home</button>
             </div>
-            <a href="./search.html" id="search-button" class="search-button">Search 🔎</a>
+            <input id="search-input" class="search-input" type="text" placeholder="Search for a user..." />
+            <button id="search-button" class="search-button" disabled="true">Search 🔎</button>
         </div>
-        <div id="chats-container" class="chats"></div>
+        <div id="search-container" class="results"></div>
     </div>
 </body>
 

@@ -5,8 +5,11 @@ let user = null
 
 userLoggedIn = false;
 
-if (token !== null) {
+if (token !== null && token !== "") {
     fetchUser()
+} else {
+    hideLoggedInMenu();
+
 }
 
 function fetchUser() {
