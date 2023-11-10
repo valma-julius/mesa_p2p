@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="./p2p_chat.css" rel="stylesheet" />
+        <script src="./p2p_chat.js"></script>
+        <script src="./utils.js"></script>
+        <script src="../lib/peerjs.min.js"></script>
+        <script src="../js/forwarder.js"></script>
+        <title>Register</title>
+    </head>
+    <body>
+        <div class="v1_2">
+            <div class="chat-header">
+                <div class="navigation">
+                    <h1 class="title">Mesa</h1>
+                    <button class="v1_4" id="home-button">Home</button>
+                </div>
+                <div class="chat-top">
+                    <p id="chat-name" class="chat-name">Chat Name</p>
+                    <button id="delete-chat-button" class="delete-chat-button" disabled="true">Delete Chat</button>
+                </div>
+            </div>
+            <div id="chat-container" class="messages"></div>
+            <div id="compose-container" class="compose-container">
+                <input id="message-input" class="message-input" type="text" placeholder="Type a message..." />
+                <button id="send-button" class="send-button">Send</button>
+            </div>
+        </div>
+    </body>
+</html>

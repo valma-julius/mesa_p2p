@@ -55,3 +55,58 @@ function logoutUser() {
       });
 }
 
+
+function sendAvailableICE() {
+  user_id = JSON.parse(localStorage.getItem('mesa_user')).id;
+
+  body = {
+    ice: user_id + "_ice_candidate"
+  }
+
+  console.log("Sending out ice client")
+
+  fetch(`${BASE_URL}/create_ice_candidate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('mesa_token'),
+    },
+    body: JSON.stringify(body)
+  })
+  .then(response => {
+    if (!response.ok) {
+        showErrorBanner("Error sending ICE Candidate");
+        return null
+    }
+  })
+  .catch((error) => {
+    throw error
+  });
+}
+
+setInterval(sendAvailableICE, 1000*10);
+
+
+function getAvailableICE() {
+  // Return the fetch promise chain
+  return fetch(`${BASE_URL}/get_available_ice_candidates`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('mesa_token'),
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      showErrorBanner("Error sending ICE Candidate");
+      // Reject the promise if the response is not ok
+      return Promise.reject(new Error("Response is not ok"));
+    }
+    return response.json(); // Parse and return the JSON response
+  })
+  .catch((error) => {
+    showErrorBanner(`Error: ${error.message}`);
+    // Re-throw the error to be caught by the caller
+    throw error;
+  });
+}

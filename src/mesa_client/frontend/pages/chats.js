@@ -34,11 +34,16 @@ function drawChats(chats) {
 
 function createChat(chat) {
     return `
-        <div class="chat" id="chat-${chat.id}">
+        <div class="chat" id="chat-${chat.id}" onclick="openChat('${chat.id}')">
             <p>${chat.conversation_name}</p>
             <p>${chat.created_at !== "" ? chat.created_at.split("T")[0] : ""}</p>
         </div>
     `
+}
+
+function openChat(chatId) {
+    localStorage.setItem('mesa_chat', chatId);
+    window.location.href = `/pages/p2p_chat.html`;
 }
 
 function fetchConversations() {
@@ -63,170 +68,3 @@ function fetchConversations() {
         console.error('Error:', error);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-chats = [
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'other user',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    },
-    {
-        id: 1,
-        name: 'some_name',
-        conversation_name: 'real_name',
-        identifier: 'what?',
-        created_at: Date.now(),
-        user_id: 1,
-    }
-]
