@@ -15,7 +15,7 @@ module P2p
     end
 
     def ice_candidates
-      UsersIceCandidate.where.not(user_id: current_user_id).order(id: :desc).limit(100)
+      UsersIceCandidate.where.not(user_id: current_user_id).where('updated_at >= ?',  2.minutes.ago).order(id: :desc).limit(100)
     end
   end
 end

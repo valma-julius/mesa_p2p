@@ -7,7 +7,7 @@ module P2p
     initialize_with :user_id, :ice
 
     def run
-      users_ice_candidate.update!(ice: ice) if users_ice_candidate
+      users_ice_candidate.update!(ice: ice, updated_at: Time.now) if users_ice_candidate
 
       UsersIceCandidate.create!(user_id: user_id, ice: ice) unless users_ice_candidate
 
