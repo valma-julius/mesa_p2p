@@ -33,7 +33,7 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
 
             });
             // Send messages
-            connection.send('Hello!');
+            // connection.send('Hello!');
         });
     
         connection.on('close', function() {
@@ -49,7 +49,7 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
         connection.send(message);
 
 
-        console.log("TrYING to SEND to: " + message.recipient_id + "_chat")
+        console.log("Trying to send to: " + message.recipient_id + "_chat")
         connection = peer.connect(`${message.recipient_id}_chat`);
 
         connection.on('open', function() {

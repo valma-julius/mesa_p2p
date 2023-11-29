@@ -31,21 +31,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     peer.on('connection', (conn) => {
-        connection = conn
-
-        connection.on('open', function() {    
+        conn.on('open', function() {    
             // Receive messages
-            connection.on('data', function(data) {
+            conn.on('data', function(data) {
                 console.log(data)
-
+                current_chat = localStorage.getItem('mesa_chat');
+                messageText = data.text;
+            
+                message = getMessageObject(messageText, data.author);
+                console.log(message)
+                saveMessage(current_chat, message);
+                drawMessages(current_chat);
             });
         });
 
-        connection.on('close', function() {
+        conn.on('close', function() {
             console.log("Connection closed")
         });
 
-        connection.on('error', function(err) {
+        conn.on('error', function(err) {
             console.log(err)
         });
     });
@@ -157,7 +161,8 @@ function saveMessage(chat_id, message, author) {
 async function sendP2PMessage(current_chat, message) {
     try {
         // Await the promise returned by getAvailableICE
-        const responseJson = await getAvailableICE();
+        const responseJson = await getAvailableICE(conversation.conversation.id);
+        console.log(responseJson)
 
         current_user_id = JSON.parse(localStorage.getItem('mesa_user')).id;
         peer = new Peer(current_user_id, {
@@ -167,6 +172,7 @@ async function sendP2PMessage(current_chat, message) {
         });
 
         peer.on('open', (id) => {
+            console.log("PEER IS OPEN")
             connection = peer.connect(`${responseJson[0].ice_id.split("_")[0]}_forwarder`);
 
             message.recipient_id = conversation.recipient_id;

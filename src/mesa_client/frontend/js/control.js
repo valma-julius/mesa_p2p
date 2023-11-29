@@ -5,11 +5,18 @@ let user = null
 
 userLoggedIn = false;
 
-if (token !== null && token !== "") {
+if (token !== null || token !== "") {
     fetchUser()
-} else {
-    hideLoggedInMenu();
+}
 
+function showLoggedInMenu() {
+    document.getElementById("logged-in-menu").style.display = "";
+    document.getElementById("logged-out-menu").style.display = "none";
+}
+
+function hideLoggedInMenu() {
+    document.getElementById("logged-in-menu").style.display = "none";
+    document.getElementById("logged-out-menu").style.display = "";
 }
 
 function fetchUser() {
@@ -21,20 +28,27 @@ function fetchUser() {
         },
     })
     .then(response => {
-        if (!response.ok) {
-            return null
-        }
         return response.json()
     })
     .then(response => {
-        if (response === null) {
+        if (response.status === 422) {
+            handleFetchUserFail();
             return
         }
+
         handleFetchUserSuccess(response)
     })
     .catch((error) => {
+        console.log("FAIL")
+        handleFetchUserFail();
         console.error('Error:', error);
     });
+}
+
+function handleFetchUserFail() {
+    localStorage.removeItem('mesa_token');
+    localStorage.removeItem('mesa_user');
+    hideLoggedInMenu();
 }
 
 function handleFetchUserSuccess(data) {
@@ -43,16 +57,7 @@ function handleFetchUserSuccess(data) {
     localStorage.setItem('mesa_user', JSON.stringify(user));
 
     showLoggedInMenu();
-    hideLoggedOutMenu();
 } 
-
-function showLoggedInMenu() {
-    document.getElementById("logged-in-menu").style.display = "";
-}
-
-function hideLoggedOutMenu() {
-    document.getElementById("logged-out-menu").style.display = "none";
-}
 
 document.addEventListener('DOMContentLoaded', (event) => {
     logoutButton = document.getElementById("logout-button");
