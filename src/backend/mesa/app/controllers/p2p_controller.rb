@@ -28,7 +28,7 @@ class P2pController < ApplicationController
   end
 
   def get_available_ice_candidates
-    render json: P2p::GetAvailableIceCandidates.for(user_id)
+    render json: P2p::GetAvailableIceCandidates.for(user_id, params[:conversation_id])
   end
 
   def create_p2p_path
