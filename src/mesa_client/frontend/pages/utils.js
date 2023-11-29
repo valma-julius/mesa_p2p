@@ -63,8 +63,6 @@ function sendAvailableICE() {
     ice: user_id + "_ice_candidate"
   }
 
-  console.log("Sending out ice client")
-
   fetch(`${BASE_URL}/create_ice_candidate`, {
     method: 'POST',
     headers: {
@@ -84,12 +82,14 @@ function sendAvailableICE() {
   });
 }
 
-setInterval(sendAvailableICE, 1000*10);
+if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_user') !== undefined) {
+  setInterval(sendAvailableICE, 1000*10);
+}
 
 
-function getAvailableICE() {
+function getAvailableICE(conversation_id) {
   // Return the fetch promise chain
-  return fetch(`${BASE_URL}/get_available_ice_candidates`, {
+  return fetch(`${BASE_URL}/get_available_ice_candidates?conversation_id=${conversation_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

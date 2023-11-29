@@ -4,6 +4,8 @@ class Users::SessionController < Devise::SessionsController
   private
 
   def respond_with(_resource, _opts = {})
+    raise ActionController::InvalidAuthenticityToken if current_user.nil?
+
     render json: {
       message: 'You are logged in!',
       user: current_user
