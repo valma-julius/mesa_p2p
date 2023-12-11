@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     peer.on('open', (id) => {
-        console.log('My peer ID is: ' + id);
     });
 
     peer.on('connection', (conn) => {
@@ -40,7 +39,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 decryptMessage(data.text)
                 .then(decryptedMessage => {
-                    console.log("Decrypted Message:", decryptedMessage);
                     messageText = decryptedMessage;
 
                     message = getMessageObject(messageText, data.author);
@@ -117,14 +115,12 @@ function fetchConversation() {
         },
     })
     .then(response => {
-        console.log(response)
         if (!response.ok) {
             return null
         }
         return response.json()
     })
     .then(response => {
-        console.log(response)
         conversation = response;
         drawChat(response)
     })
@@ -141,7 +137,6 @@ function sendMessage() {
 
     encryptedMessage = encryptMessage(messageText, recipientPubKey);
     encryptedMessage.then(encryptedMessage => {
-        console.log(encryptedMessage);
         messageToSend = getMessageObject(encryptedMessage, JSON.parse(localStorage.getItem('mesa_user')).username);
         messageToSave = getMessageObject(messageText, JSON.parse(localStorage.getItem('mesa_user')).username);
 
@@ -179,7 +174,6 @@ async function sendP2PMessage(current_chat, message) {
     try {
         // Await the promise returned by getAvailableICE
         const responseJson = await getAvailableICE(conversation.conversation.id);
-        console.log(responseJson)
 
         current_user_id = JSON.parse(localStorage.getItem('mesa_user')).id;
         peer = new Peer(current_user_id, {
@@ -189,15 +183,16 @@ async function sendP2PMessage(current_chat, message) {
         });
 
         peer.on('open', (id) => {
-            console.log("PEER IS OPEN")
             connection = peer.connect(`${responseJson[0].ice_id.split("_")[0]}_forwarder`);
 
             message.recipient_id = conversation.recipient_id;
             message.type = "p2p_forward"
 
             connection.on('open', function() {
+                console.log("sending message: ", message);
                 // Send messages
                 connection.send(message);
+                peer.destroy();
             });
         });
         // Use the responseJson here
