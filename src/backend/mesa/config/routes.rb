@@ -34,4 +34,5 @@ Rails.application.routes.draw do
 
   # Users routes
   get 'users/search', to: 'users#search'
+  post 'users/update_pub_key', to: 'users#update_pub_key'
 end
