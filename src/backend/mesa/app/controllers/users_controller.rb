@@ -8,6 +8,12 @@ class UsersController < ApplicationController
     render json: response, status: :ok
   end
 
+  def update_pub_key
+    Users::UpdatePubKey.for(current_user, pub_key)
+
+    head :ok
+  end
+
   private
 
   def user_id
@@ -16,5 +22,9 @@ class UsersController < ApplicationController
 
   def username
     params[:username]
+  end
+
+  def pub_key
+    params[:pub_key]
   end
 end

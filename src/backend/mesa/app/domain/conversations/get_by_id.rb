@@ -22,7 +22,17 @@ module Conversations
         recipient_id: other_conversation_user_id,
         conversation_users: conversation_users,
         conversation_messages: conversation_messages,
+        recipient_public_key: recipient_public_key,
+        recipient_active: recipient_active,
       }
+    end
+
+    def recipient_active
+      UsersIceCandidate.where(user_id: other_conversation_user_id).where('updated_at > ?', 2.minutes.ago).exists?
+    end
+
+    def recipient_public_key
+      User.find(other_conversation_user_id).pub_key
     end
 
     def conversation

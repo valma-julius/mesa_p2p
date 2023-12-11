@@ -3,6 +3,7 @@ if (localStorage.getItem('mesa_user') === null) {
 }
 
 let conversation = null
+let recepientPubKey = null
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -36,12 +37,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
             conn.on('data', function(data) {
                 console.log(data)
                 current_chat = localStorage.getItem('mesa_chat');
-                messageText = data.text;
-            
-                message = getMessageObject(messageText, data.author);
-                console.log(message)
-                saveMessage(current_chat, message);
-                drawMessages(current_chat);
+
+                decryptMessage(data.text)
+                .then(decryptedMessage => {
+                    console.log("Decrypted Message:", decryptedMessage);
+                    messageText = decryptedMessage;
+
+                    message = getMessageObject(messageText, data.author);
+                    saveMessage(current_chat, message);
+                    drawMessages(current_chat);
+                })
+                .catch(error => {
+                    console.error("Decryption failed:", error);
+                });
             });
         });
 
@@ -77,11 +85,12 @@ function drawChat(conversation) {
         });
     }
 
-    drawConversationName(conversation.conversation_name);
+    drawConversationName(conversation.conversation_name, conversation.recipient_active);
 }
 
-function drawConversationName(conversation_name) {
+function drawConversationName(conversation_name, recipient_active) {
     conversationNameContainer = document.getElementById("chat-name");
+    conversation_name = recipient_active ? `${conversation_name} 🟢` : `${conversation_name} 🔴`;
     conversationNameContainer.innerHTML = conversation_name;
 }
 
@@ -128,11 +137,19 @@ function sendMessage() {
     current_chat = localStorage.getItem('mesa_chat');
     messageText = document.getElementById("message-input").value;
 
-    message = getMessageObject(messageText, JSON.parse(localStorage.getItem('mesa_user')).username);
-    saveMessage(current_chat, message);
+    recipientPubKey = conversation.recipient_public_key;
 
-    sendP2PMessage(current_chat, message);
-    drawMessages(current_chat);
+    encryptedMessage = encryptMessage(messageText, recipientPubKey);
+    encryptedMessage.then(encryptedMessage => {
+        console.log(encryptedMessage);
+        messageToSend = getMessageObject(encryptedMessage, JSON.parse(localStorage.getItem('mesa_user')).username);
+        messageToSave = getMessageObject(messageText, JSON.parse(localStorage.getItem('mesa_user')).username);
+
+        sendP2PMessage(current_chat, messageToSend);
+        saveMessage(current_chat, messageToSave);
+
+        drawMessages(current_chat);
+    })
     
     // Clearing input
     document.getElementById("message-input").value = "";
