@@ -12,7 +12,7 @@ services:
     volumes:
       - postgres-db:/data/postgres
     ports:
-      - "5432:5432"
+      - "9999:5432"
 
   peerjs_server:
     container_name: mesa_peerjs
