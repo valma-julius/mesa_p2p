@@ -1,4 +1,4 @@
-BASE_URL = "http://159.65.200.216:7777";
+BASE_URL = "https://159.65.200.216/api";
 
 let token = localStorage.getItem('mesa_token')
 let user = null
