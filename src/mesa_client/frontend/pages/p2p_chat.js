@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     peerID = JSON.parse(localStorage.getItem('mesa_user')).id + "_chat"
     const peer =  new Peer(peerID, {
         host: PEERJS_HOST,
-        port: PEERJS_PORT,
         path: PEERJS_PATH,
+        secure: true,
     });
 
     peer.on('open', (id) => {
@@ -178,8 +178,8 @@ async function sendP2PMessage(current_chat, message) {
         current_user_id = JSON.parse(localStorage.getItem('mesa_user')).id;
         peer = new Peer(current_user_id, {
             host: PEERJS_HOST,
-            port: PEERJS_PORT,
             path: PEERJS_PATH,
+            secure: true,
         });
 
         peer.on('open', (id) => {
