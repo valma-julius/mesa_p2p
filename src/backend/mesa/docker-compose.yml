@@ -14,12 +14,6 @@ services:
     ports:
       - "9999:5432"
 
-  peerjs_server:
-    container_name: mesa_peerjs
-    image: peerjs/peerjs-server
-    ports:
-      - "9000:9000"
-
 volumes:
   postgres-db:
     driver: local
