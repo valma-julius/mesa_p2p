@@ -28,7 +28,7 @@ function redirectToHome() {
 }
 
 // Constants
-BASE_URL = "https://159.65.200.216/api";
+BASE_URL = "https://mesa-vu.com/api";
 
 
 // Logout function
