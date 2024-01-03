@@ -28,7 +28,7 @@ function redirectToHome() {
 }
 
 // Constants
-BASE_URL = "http://localhost:7777";
+BASE_URL = "http://159.65.200.216:7777";
 
 
 // Logout function

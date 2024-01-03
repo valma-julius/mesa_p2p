@@ -1,4 +1,4 @@
-const PEERJS_HOST = "localhost";
+const PEERJS_HOST = "http://159.65.200.216";
 const PEERJS_PORT = 9000;
 const PEERJS_PATH = "/";
 
