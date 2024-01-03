@@ -1,14 +1,5 @@
-FROM ruby:3.1.2-slim
-ENV LANG C.UTF-8
+FROM peerjs/peerjs-server
 
-RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
-    build-essential \
-    gnupg2 \
-    less \
-    git \
-    telnet \
-    nodejs \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+COPY peerjs-config.json /peerjs-config.json
 
-RUN apt-get update -qq
-EXPOSE  5432
+CMD ["peerjs", "--port", "9000", "--path", "/forwards"]
