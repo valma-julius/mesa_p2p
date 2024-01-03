@@ -1,13 +1,12 @@
 const PEERJS_HOST = "mesa-vu.com";
-const PEERJS_PORT = 443;
 const PEERJS_PATH = "/forwards";
 
 if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_user') !== "") {
     peerID = JSON.parse(localStorage.getItem('mesa_user')).id + "_forwarder"
     const peer =  new Peer(peerID, {
         host: PEERJS_HOST,
-        port: PEERJS_PORT,
         path: PEERJS_PATH,
+        secure: true,
     });
 
     peer.on('open', (id) => {
