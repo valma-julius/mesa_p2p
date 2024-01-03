@@ -1,4 +1,4 @@
-const PEERJS_HOST = "https://159.65.200.216";
+const PEERJS_HOST = "https://mesa-vu.com";
 const PEERJS_PORT = 443;
 const PEERJS_PATH = "/forwards";
 
