@@ -1,6 +1,6 @@
 const PEERJS_HOST = "http://159.65.200.216";
 const PEERJS_PORT = 9000;
-const PEERJS_PATH = "/forwards/";
+const PEERJS_PATH = "/forwards";
 
 if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_user') !== "") {
     peerID = JSON.parse(localStorage.getItem('mesa_user')).id + "_forwarder"
