@@ -106,8 +106,12 @@ function cleanFields() {
 function handleRegisterSuccess(data) {
     const token = data.headers.get('Authorization');
     localStorage.setItem('mesa_token', token);
-    console.log("THIS IS GOOD?")
-    redirectToHome();
+    generateNewE2EKeyPair().then((result) => {
+        redirectToHome();
+    }).catch((error) => {
+        console.error("Failed to generate key pair:", error);
+        showErrorBanner("Failed to authenticate properly, please try again.")
+    });
 }
 
 function handleRegisterError(response) {

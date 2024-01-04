@@ -18,7 +18,7 @@ module P2p
       UsersIceCandidate
         .where.not(user_id: conversation_users[0].id)
         .where.not(user_id: conversation_users[1].id)
-        .where('updated_at >= ?',  2.minutes.ago)
+        .where('updated_at >= ?',  1.minutes.ago)
         .order(id: :desc)
         .limit(100)
     end

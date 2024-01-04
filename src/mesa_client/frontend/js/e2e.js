@@ -132,6 +132,8 @@ function sendPublicKeyToServer(publicKey) {
     let token = localStorage.getItem('mesa_token');
     let keyString = JSON.stringify(publicKey);
 
+    console.log(keyString)
+
     fetch(`${BASE_URL}/users/update_pub_key`, {
         method: 'POST',
         headers: {
@@ -141,6 +143,7 @@ function sendPublicKeyToServer(publicKey) {
         body: JSON.stringify({pub_key: keyString}),
     })
     .then(response => {
+        console.log(response)
         if (response.status === 200) {
             return publicKey;
         }

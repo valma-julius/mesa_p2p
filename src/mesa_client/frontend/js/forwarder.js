@@ -22,8 +22,14 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
                 console.log(data.type)
                 switch (data.type) {
                     case 'p2p_forward':
-                        console.log('Received', data);
+                        connection.send({ type: 'ack' });
+                        console.log('Received some data, sending ack');
                         forwardMessage(data, peer);
+            
+                        break;
+                    case 'ack':
+                        console.log('Received ack');
+                        connection.close();
                         break;
                     default:
                         console.log('Received without type', data);
