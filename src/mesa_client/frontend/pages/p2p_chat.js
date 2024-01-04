@@ -34,7 +34,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         conn.on('open', function() {    
             // Receive messages
             conn.on('data', function(data) {
-                console.log(data)
+                console.log("received some data, sending ack")
+                conn.send({ type: 'ack' })
+
                 current_chat = localStorage.getItem('mesa_chat');
 
                 decryptMessage(data.text)
@@ -183,17 +185,38 @@ async function sendP2PMessage(current_chat, message) {
         });
 
         peer.on('open', (id) => {
+            console.log("Sending to: ", `${responseJson[0].ice_id.split("_")[0]}_forwarder`);
             connection = peer.connect(`${responseJson[0].ice_id.split("_")[0]}_forwarder`);
 
             message.recipient_id = conversation.recipient_id;
             message.type = "p2p_forward"
 
             connection.on('open', function() {
-                console.log("sending message: ", message);
+                console.log("sending message");
                 // Send messages
                 connection.send(message);
+            });
+
+            connection.on('data', function(data) {
+                if (data.type === "ack") {
+                    console.log("ACK received")
+                    connection.close();
+                }
+            })
+
+
+            connection.on('close', function() {
+                console.log("Connection closed");
+
+                // Optionally destroy the peer object if it's not going to be reused
                 peer.destroy();
             });
+
+            connection.on('error', function(err) {
+                console.error("Connection error:", err);
+                connection.close(); // Make sure to close the connection on error
+            });
+
         });
         // Use the responseJson here
       } catch (error) {
