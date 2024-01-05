@@ -35,6 +35,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // Receive messages
             conn.on('data', function(data) {
                 console.log("received some data, sending ack")
+
+                // Experiment on receiving time
+                const currentDate = new Date(); 
+                const milliseconds = currentDate. getMilliseconds()
+                console.log("-----------------------------------------------")
+                console.log("Received at: ", milliseconds)
+                console.log("-----------------------------------------------")
+
                 conn.send({ type: 'ack' })
 
                 current_chat = localStorage.getItem('mesa_chat');
@@ -134,6 +142,13 @@ function fetchConversation() {
 function sendMessage() {
     current_chat = localStorage.getItem('mesa_chat');
     messageText = document.getElementById("message-input").value;
+
+    // Experiment on sending time
+    const currentDate = new Date(); 
+    const milliseconds = currentDate. getMilliseconds()
+    console.log("-----------------------------------------------")
+    console.log("Started to send at: ", milliseconds)
+    console.log("-----------------------------------------------")
 
     recipientPubKey = conversation.recipient_public_key;
 
