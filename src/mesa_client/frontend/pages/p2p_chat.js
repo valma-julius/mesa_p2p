@@ -37,10 +37,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 console.log("received some data, sending ack")
 
                 // Experiment on receiving time
-                const currentDate = new Date(); 
-                const milliseconds = currentDate. getMilliseconds()
                 console.log("-----------------------------------------------")
-                console.log("Received at: ", milliseconds)
+                console.log("Received at: ", new Date())
                 console.log("-----------------------------------------------")
 
                 conn.send({ type: 'ack' })
@@ -144,10 +142,8 @@ function sendMessage() {
     messageText = document.getElementById("message-input").value;
 
     // Experiment on sending time
-    const currentDate = new Date(); 
-    const milliseconds = currentDate. getMilliseconds()
     console.log("-----------------------------------------------")
-    console.log("Started to send at: ", milliseconds)
+    console.log("Started to send at: ", new Date())
     console.log("-----------------------------------------------")
 
     recipientPubKey = conversation.recipient_public_key;
