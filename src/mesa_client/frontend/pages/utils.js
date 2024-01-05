@@ -22,6 +22,33 @@ function showErrorBanner(message) {
       document.body.removeChild(errorBanner);
     }, 3000);
 }
+
+function showNewMessageBanner(sender) {
+  console.log("SHOWING SOMETHING")
+  // Create the error banner div
+  const messageBanner = document.createElement('div');
+  messageBanner.textContent = 'You have a new message from: ' + sender;
+  messageBanner.style.position = 'fixed';
+  messageBanner.style.top = '0';
+  messageBanner.style.left = '50%';
+  messageBanner.style.transform = 'translateX(-50%)';
+  messageBanner.style.backgroundColor = '#66ff61';
+  messageBanner.style.color = 'black';
+  messageBanner.style.padding = '10px';
+  messageBanner.style.zIndex = '1000';
+  messageBanner.style.fontSize = '1rem';
+  messageBanner.style.maxWidth = '50%';
+  messageBanner.style.textAlign = 'center';
+
+  // Add the banner to the body
+  document.body.appendChild(messageBanner);
+
+  // Optional: Remove the banner after 3 seconds
+  setTimeout(() => {
+    document.body.removeChild(messageBanner);
+  }, 3000);
+}
+
   
 function redirectToHome() {
     window.location.href = "/";
