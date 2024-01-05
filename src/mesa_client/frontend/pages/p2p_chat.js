@@ -25,47 +25,69 @@ document.addEventListener('DOMContentLoaded', (event) => {
         host: PEERJS_HOST,
         path: PEERJS_PATH,
         secure: true,
+        pinginterval: 100000000000000,
+        debug: 1,
     });
 
     peer.on('open', (id) => {
+        console.log("PEER IS OPENED, MAIN ONE")
     });
 
-    peer.on('connection', (conn) => {
-        conn.on('open', function() {    
-            // Receive messages
-            conn.on('data', function(data) {
-                console.log("received some data, sending ack")
+    // peer.on('open', (id) => {
+        peer.on('connection', (conn) => {
+            conn.on('open', function() {    
+                // Receive messages
+                conn.on('data', function(data) {
+                    console.log("received some data, sending ack")
 
-                // Experiment on receiving time
-                console.log("-----------------------------------------------")
-                console.log("Received at: ", new Date())
-                console.log("-----------------------------------------------")
+                    // Experiment on receiving time
+                    console.log("-----------------------------------------------")
+                    console.log("Received at: ", Date.now())
+                    console.log("-----------------------------------------------")
 
-                conn.send({ type: 'ack' })
+                    conn.send({ type: 'ack' })
 
-                current_chat = localStorage.getItem('mesa_chat');
+                    current_chat = localStorage.getItem('mesa_chat');
 
-                decryptMessage(data.text)
-                .then(decryptedMessage => {
-                    messageText = decryptedMessage;
+                    decryptMessage(data.text)
+                    .then(decryptedMessage => {
+                        messageText = decryptedMessage;
 
-                    message = getMessageObject(messageText, data.author);
-                    saveMessage(current_chat, message);
-                    drawMessages(current_chat);
-                })
-                .catch(error => {
-                    console.error("Decryption failed:", error);
+                        if (current_chat === data.chat_id) {
+                            message = getMessageObject(messageText, data.author, current_chat);
+                            saveMessage(current_chat, message);
+                            drawMessages(current_chat);
+                        } else {
+                            current_chat = data.chat_id;
+                            message = getMessageObject(messageText, data.author, current_chat);
+                            saveMessage(current_chat, message);
+                            showNewMessageBanner(message.author);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Decryption failed:", error);
+                    });
                 });
             });
-        });
 
-        conn.on('close', function() {
-            console.log("Connection closed")
-        });
+            conn.on('close', function() {
+                console.log("Main connection closed")
+            });
 
-        conn.on('error', function(err) {
-            console.log(err)
+            conn.on('error', function(err) {
+                console.log(err.type)
+            });
         });
+    // });
+
+    peer.on('error', (error) => {
+        console.log("There has been an error with the main peer: ", error)
+        console.log(error.type)
+    })
+
+    window.addEventListener("beforeunload", function() {
+        console.log("LEAVING")
+        peer.disconnect();
     });
 });
 
@@ -143,15 +165,15 @@ function sendMessage() {
 
     // Experiment on sending time
     console.log("-----------------------------------------------")
-    console.log("Started to send at: ", new Date())
+    console.log("Started to send at: ", Date.now())
     console.log("-----------------------------------------------")
 
     recipientPubKey = conversation.recipient_public_key;
 
     encryptedMessage = encryptMessage(messageText, recipientPubKey);
     encryptedMessage.then(encryptedMessage => {
-        messageToSend = getMessageObject(encryptedMessage, JSON.parse(localStorage.getItem('mesa_user')).username);
-        messageToSave = getMessageObject(messageText, JSON.parse(localStorage.getItem('mesa_user')).username);
+        messageToSend = getMessageObject(encryptedMessage, JSON.parse(localStorage.getItem('mesa_user')).username, current_chat);
+        messageToSave = getMessageObject(messageText, JSON.parse(localStorage.getItem('mesa_user')).username, current_chat);
 
         sendP2PMessage(current_chat, messageToSend);
         saveMessage(current_chat, messageToSave);
@@ -163,16 +185,17 @@ function sendMessage() {
     document.getElementById("message-input").value = "";
 }
 
-function getMessageObject(messageText, author) {
+function getMessageObject(messageText, author, chat_id) {
     return {
         id: Math.random(),
         author: author,
         text: messageText,
+        chat_id: chat_id,
         created_at: new Date()
     }
 }
 
-function saveMessage(chat_id, message, author) {
+function saveMessage(chat_id, message) {
     localMessages = JSON.parse(localStorage.getItem(`mesa_messages_p2p_${chat_id}`));
 
     if (localMessages === null) {
@@ -189,10 +212,12 @@ async function sendP2PMessage(current_chat, message) {
         const responseJson = await getAvailableICE(conversation.conversation.id);
 
         current_user_id = JSON.parse(localStorage.getItem('mesa_user')).id;
-        peer = new Peer(current_user_id, {
+        peer = new Peer(current_user_id + "_sending", {
             host: PEERJS_HOST,
             path: PEERJS_PATH,
             secure: true,
+            pinginterval: 100000000000000,
+            debug: 1,
         });
 
         peer.on('open', (id) => {
@@ -217,7 +242,7 @@ async function sendP2PMessage(current_chat, message) {
 
 
             connection.on('close', function() {
-                console.log("Connection closed");
+                console.log("Sending connection closed");
 
                 // Optionally destroy the peer object if it's not going to be reused
                 peer.destroy();

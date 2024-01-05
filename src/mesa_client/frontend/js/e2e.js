@@ -61,7 +61,6 @@ function writePrivateKeyToIndexedDB(key) {
             var transaction = db.transaction(["keys"], "readwrite");
             var objectStore = transaction.objectStore("keys");
             var addKeyRequest = objectStore.put({ id: "privateKey", key: key });
-            console.log(key)
 
             addKeyRequest.onsuccess = function() {
                 resolve("Private key and date stored successfully.");
@@ -132,8 +131,6 @@ function sendPublicKeyToServer(publicKey) {
     let token = localStorage.getItem('mesa_token');
     let keyString = JSON.stringify(publicKey);
 
-    console.log(keyString)
-
     fetch(`${BASE_URL}/users/update_pub_key`, {
         method: 'POST',
         headers: {
@@ -143,7 +140,6 @@ function sendPublicKeyToServer(publicKey) {
         body: JSON.stringify({pub_key: keyString}),
     })
     .then(response => {
-        console.log(response)
         if (response.status === 200) {
             return publicKey;
         }
@@ -175,7 +171,7 @@ function encryptMessage(message, publicKey) {
     return importPublicKey(publicKey).then(importedKey => {
         let enc = new TextEncoder();
         let encodedMessage = enc.encode(message);
-        console.log(importedKey)
+
         return window.crypto.subtle.encrypt(
             {
                 name: "RSA-OAEP"
@@ -210,69 +206,4 @@ function str2ab(str) {
         bytes[i] = binaryString.charCodeAt(i);
     }
     return bytes.buffer;
-}
-
-function testEncryptionDecryption() {
-    let testMessage = "Hello, this is a test message!";
-
-    generateNewE2EKeyPair().then(() => {
-        // Export the public key to JWK format for encryption
-        window.crypto.subtle.exportKey("jwk", pb_key).then(jwkPublicKey => {
-            // Import the public key for encryption
-            window.crypto.subtle.importKey(
-                "jwk",
-                jwkPublicKey,
-                {
-                    name: "RSA-OAEP",
-                    hash: "SHA-256",
-                },
-                true,
-                ["encrypt"]
-            )
-            .then(importedPublicKey => {
-                // Encrypt the test message
-                let enc = new TextEncoder();
-                window.crypto.subtle.encrypt(
-                    {
-                        name: "RSA-OAEP"
-                    },
-                    importedPublicKey,
-                    enc.encode(testMessage)
-                )
-                .then(encryptedMessage => {
-                    // Decrypt the message using the private key
-                    getPrivateKeyFromIndexedDB().then(privateKey => {
-                        window.crypto.subtle.decrypt(
-                            {
-                                name: "RSA-OAEP",
-                            },
-                            privateKey,
-                            encryptedMessage
-                        )
-                        .then(decryptedBuffer => {
-                            let dec = new TextDecoder();
-                            let decryptedMessage = dec.decode(decryptedBuffer);
-    
-                            console.log("Decrypted Message:", decryptedMessage);
-    
-                            if (decryptedMessage === testMessage) {
-                                console.log("Encryption and Decryption successful. Original and decrypted messages match.");
-                            } else {
-                                console.log("Mismatch between original and decrypted messages.");
-                            }
-                        })
-                        .catch(decryptionError => {
-                            console.error("Decryption error:", decryptionError);
-                        });
-                    })
-                })
-                .catch(encryptionError => {
-                    console.error("Encryption error:", encryptionError);
-                });
-            });
-        });
-    })
-    .catch(error => {
-        console.error("Error generating key pair:", error);
-    });
 }

@@ -7,6 +7,8 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
         host: PEERJS_HOST,
         path: PEERJS_PATH,
         secure: true,
+        pinginterval: 100000000000000,
+        debug: 1,
     });
 
     peer.on('open', (id) => {
@@ -42,12 +44,23 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
         });
     
         connection.on('close', function() {
-            console.log("Connection closed")
+            console.log("Main connection closed")
         });
     
         connection.on('error', function(err) {
+            console.log("There has been a problem with the forwarder peer: ", err.type)
             console.log(err)
         });
+    });
+
+    peer.on('error', (error) => {
+        console.log("There has been an error with the forwarding peer: ", error)
+        console.log(error.type)
+    })
+
+    window.addEventListener("beforeunload", function() {
+        console.log("LEAVING")
+        peer.disconnect();
     });
 
     function forwardMessage(message, peer) {
@@ -60,6 +73,26 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
         connection.on('open', function() {
             // Send messages
             connection.send(message);
+
+            connection.on('data', function(data) {
+                switch (data.type) {
+                    case 'ack':
+                        console.log('Received ack');
+                        connection.close();
+                        return;
+                    default:
+                        console.log('Received without type', data);
+                        break;
+                }
+            })
+        });
+
+        connection.on('close', function() {
+            console.log("Forwarding onnection closed")
+        });
+
+        connection.on('error', function(err) {
+            console.log(err)
         });
     }
 
