@@ -7,7 +7,6 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
         host: PEERJS_HOST,
         path: PEERJS_PATH,
         secure: true,
-        pinginterval: 100000000000000,
         debug: 1,
     });
 
@@ -56,6 +55,7 @@ if (localStorage.getItem('mesa_user') !== null && localStorage.getItem('mesa_use
     peer.on('error', (error) => {
         console.log("There has been an error with the forwarding peer: ", error)
         console.log(error.type)
+        showRefreshBanner();
     })
 
     window.addEventListener("beforeunload", function() {
