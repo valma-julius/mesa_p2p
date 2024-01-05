@@ -1,5 +1,4 @@
 function showErrorBanner(message) {
-    // Create the error banner div
     const errorBanner = document.createElement('div');
     errorBanner.textContent = message;
     errorBanner.style.position = 'fixed';
@@ -14,18 +13,14 @@ function showErrorBanner(message) {
     errorBanner.style.maxWidth = '50%';
     errorBanner.style.textAlign = 'center';
   
-    // Add the banner to the body
     document.body.appendChild(errorBanner);
-  
-    // Optional: Remove the banner after 3 seconds
+
     setTimeout(() => {
       document.body.removeChild(errorBanner);
     }, 3000);
 }
 
 function showNewMessageBanner(sender) {
-  console.log("SHOWING SOMETHING")
-  // Create the error banner div
   const messageBanner = document.createElement('div');
   messageBanner.textContent = 'You have a new message from: ' + sender;
   messageBanner.style.position = 'fixed';
@@ -40,13 +35,32 @@ function showNewMessageBanner(sender) {
   messageBanner.style.maxWidth = '50%';
   messageBanner.style.textAlign = 'center';
 
-  // Add the banner to the body
   document.body.appendChild(messageBanner);
 
-  // Optional: Remove the banner after 3 seconds
   setTimeout(() => {
     document.body.removeChild(messageBanner);
   }, 3000);
+}
+
+function showRefreshBanner() {
+      // Create the error banner div
+      const errorBanner = document.createElement('div');
+      errorBanner.textContent = "Please, refresh the page.";
+      errorBanner.style.position = 'fixed';
+      errorBanner.style.top = '0';
+      errorBanner.style.left = '50%';
+      errorBanner.style.transform = 'translateX(-50%)';
+      errorBanner.style.backgroundColor = '#FF5959';
+      errorBanner.style.color = 'white';
+      errorBanner.style.padding = '10px';
+      errorBanner.style.zIndex = '1000';
+      errorBanner.style.fontSize = '1rem';
+      errorBanner.style.maxWidth = '50%';
+      errorBanner.style.textAlign = 'center';
+    
+      document.body.appendChild(errorBanner);
+
+      window.location.reload();
 }
 
   

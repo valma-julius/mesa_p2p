@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         host: PEERJS_HOST,
         path: PEERJS_PATH,
         secure: true,
-        pinginterval: 100000000000000,
         debug: 1,
     });
 
@@ -56,6 +55,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     peer.on('error', (error) => {
         console.log("There has been an error with the main peer: ", error)
         console.log(error.type)
+        showRefreshBanner();
     })
 
     window.addEventListener("beforeunload", function() {
