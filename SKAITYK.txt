@@ -6,6 +6,10 @@ Mesa - P2P žinučių siuntinėtojas, orientuotas į naudotojo privatumą
 
 Julius Valma
 
-# Project kuratorė
+# Project kuratorius
 
-Agnė Brilingaitė
+Andrius Vytautas Misiukas Misiūnas
+
+# Prisijungimas:
+
+www.mesa-vu.com
